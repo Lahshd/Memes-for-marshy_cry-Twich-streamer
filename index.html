@@ -39,7 +39,7 @@
 <body>
     <h1>Marshy is getting snacks!</h1>
     <h2>Some funi images</h2>
-    <img id="meme" src="" alt="Meme Loading...">
+    <img id="meme" src="" alt="Meme Loading..." />
     <p id="memeTitle">Meme</p>
 
     <!-- Audio element to play sound -->
@@ -51,9 +51,9 @@
     <script>
         // Meme and corresponding sound mappings
         const memeSounds = {
-            "Drake Hotline Bling": "https://www.soundjay.com/button/beep-07.wav",  // Example sound
-            "Distracted Boyfriend": "https://www.soundjay.com/button/beep-08b.wav", // Example sound
-            "Mocking SpongeBob": "https://www.soundjay.com/button/beep-09.wav", // Example sound
+            "Drake Hotline Bling": "https://cdn.pixabay.com/download/audio/2021/09/29/audio_31f6f8f5.mp3",  // Example sound from Pixabay
+            "Distracted Boyfriend": "https://cdn.pixabay.com/download/audio/2021/09/29/audio_e8d1b0fa.mp3", // Example sound from Pixabay
+            "Mocking SpongeBob": "https://cdn.pixabay.com/download/audio/2021/09/29/audio_8e2b0f07.mp3", // Example sound from Pixabay
         };
 
         async function fetchMemes() {
@@ -85,17 +85,24 @@
                 document.getElementById("memeTitle").textContent = randomMeme.name;
 
                 // Check if there's a sound for this meme, if not, use a default sound
-                const sound = memeSounds[randomMeme.name] || "https://www.soundjay.com/button/beep-07.wav"; // Default sound
+                const sound = memeSounds[randomMeme.name] || "https://cdn.pixabay.com/download/audio/2021/09/29/audio_31f6f8f5.mp3"; // Default sound
 
                 // Set the audio source and play the sound
-                document.getElementById("audioSource").src = sound;
-                document.getElementById("audioPlayer").play();
+                const audioPlayer = document.getElementById("audioPlayer");
+                const audioSource = document.getElementById("audioSource");
+                audioSource.src = sound;
+                
+                // Ensure the audio element has permission to play by calling play() automatically
+                audioPlayer.load();
+                audioPlayer.play().catch(error => {
+                    console.log("Error playing sound:", error);
+                });
             }
         }
 
+        // Automatically change meme every 5 seconds
         setInterval(changeMeme, 5000); // Change meme every 5 seconds
         changeMeme(); // Load first meme immediately
     </script>
 </body>
 </html>
-
